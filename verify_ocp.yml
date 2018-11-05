@@ -1,8 +1,11 @@
 #!/usr/bin/env ansible-playbook
 ---
 # Run system tests against a hardened system
-#- include: playbooks/operations/ping.yml
-#- include: playbooks/security/fips_check.yml
+- include: playbooks/operations/ping.yml
+  when: check_ping
+
+- include: playbooks/security/fips_check.yml
+  when: check_fips
 
 - name: Check access to internal registry
   hosts: all
@@ -46,7 +49,7 @@
     - name: Validate Reference Project
       include_role:
         name: reference_project_validation
-      when: reference_project_available and check_reference_project
+      when: "reference_project_available and check_reference_project"
 
 - name: Check Node health
   hosts: masters[0]
@@ -60,8 +63,12 @@
       debug:
         var: nodes_shell_result
 
-    - name: Check ETC Health
-      shell: etcdctl --cert-file=$ETCD_PEER_CERT_FILE --key-file=$ETCD_PEER_KEY_FILE --ca-file=/etc/etcd/ca.crt --endpoints=$ETCD_LISTEN_CLIENT_URLS cluster-health 
+    - name: Check etcd Health
+      shell: |
+        etcdctl --cert-file=$ETCD_PEER_CERT_FILE \
+        --key-file=$ETCD_PEER_KEY_FILE \
+        --ca-file=/etc/etcd/ca.crt \
+        --endpoints=$ETCD_LISTEN_CLIENT_URLS cluster-health 
       register: etcd_shell_result
       failed_when: "'Something' in etcd_shell_result.stdout"
   
@@ -79,4 +86,5 @@
         return_content: yes
       register: healthz_api_response
       failed_when: "'OK' not in healthz_api_response"
+      when: check_api_health
 

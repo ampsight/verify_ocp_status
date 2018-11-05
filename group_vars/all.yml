@@ -8,6 +8,8 @@ api_port: 443 				#note, this is usually 8443
 internal_registry_url: "ocp-registry.{{ default_subdomain }}:5000/v2/_catalog"
 
 # cycle these to control what's being verified
+check_ping: true
+check_fips: true
 check_reference_project: false
 check_node_health: true
 check_etcd_health: true
