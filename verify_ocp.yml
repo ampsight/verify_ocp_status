@@ -8,7 +8,7 @@
   hosts: all
   tasks:
     - uri:
-        url: http://ocp-registry.lab.revoweb:5000/v2/_catalog
+        url: "https://{{ internal_registry_url }}"
         return_content: yes
       register: registrypage
     - name: Verify registry catalog is not empty
