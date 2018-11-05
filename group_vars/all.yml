@@ -1,0 +1,15 @@
+---
+#vars file for verify_ocp_status
+
+internal_registry_url
+default_root_domain: example.com
+default_subdomain: "default_root_domain.{{ default_root_domain }}"
+masters_route: "masters.{{ default_root_domain }}"
+api_port: 443 #note, this is usually 8443
+
+
+# cycle these to control what's being verified
+check_reference_project: false
+check_node_health: true
+check_etcd_health: true
+check_api_health: true

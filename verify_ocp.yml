@@ -1,8 +1,8 @@
 #!/usr/bin/env ansible-playbook
 ---
 # Run system tests against a hardened system
-- include: playbooks/operations/ping.yml
-- include: playbooks/security/fips_check.yml
+#- include: playbooks/operations/ping.yml
+#- include: playbooks/security/fips_check.yml
 
 - name: Check access to internal registry
   hosts: all
