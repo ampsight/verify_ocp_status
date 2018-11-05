@@ -12,5 +12,5 @@ ocp-master-[01:03].ocp.example.com
 
 Execute the playbook:
 ```
-$ansible-playbook -i <your_inventory_file> validate_ocp.yml
+$ansible-playbook -i <your_inventory_file> verify_ocp.yml
 ```
